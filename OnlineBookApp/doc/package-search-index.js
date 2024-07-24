@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.bookapp.bean"},{"l":"com.bookapp.client"},{"l":"com.bookapp.exceptions"},{"l":"com.bookapp.service"}];updateSearchResults();

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.voterapp.exceptions"},{"l":"com.voterapp.main"},{"l":"com.voterapp.service"}];updateSearchResults();

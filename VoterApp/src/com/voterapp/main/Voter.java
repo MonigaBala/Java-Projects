@@ -1,12 +1,20 @@
+/**
+ * Package that contains main class to execute the VoterApp. 
+ */
 package com.voterapp.main;
 
-/** Main Class Voter with an instance to check for the eligibility of the voting.
+/** 
  * 
  * @author MonigaBalasubramanian
  */
 import java.util.Scanner;
 import com.voterapp.service.ElectionBooth;
 
+/**
+ * Main Class Voter with an instance to check for the eligibility of the voting.
+ * 
+ * @author MonigaBalasubramanian
+ */
 public class Voter {
 
 	public static void main(String[] args) {

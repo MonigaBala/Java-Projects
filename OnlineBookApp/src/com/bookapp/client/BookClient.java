@@ -1,9 +1,8 @@
+/**
+ * Package contains Client class to access the OnlineBookApp.
+ */
 package com.bookapp.client;
 
-/** Client Class BookClient which is used to access the implemented methods through the instance.
- * 
- * @author MonigaBalasubramanian
- */
 import java.util.List;
 import java.util.Scanner;
 import com.bookapp.bean.Book;
@@ -15,6 +14,12 @@ import com.bookapp.exceptions.TitleNotFoundException;
 import com.bookapp.service.BookImpl;
 import com.bookapp.service.IBook;
 
+/**
+ * Client Class BookClient which is used to access the implemented methods
+ * through the instance.
+ * 
+ * @author MonigaBalasubramanian
+ */
 public class BookClient {
 
 	public static void main(String[] args) {

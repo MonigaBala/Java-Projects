@@ -1,10 +1,8 @@
+/**
+ * Package consists of service classes that declaration and implementation of the code logics.
+ */
 package com.onlinebookapp.services;
 
-/**
- * Implementation Class BookImpl with overridden methods to use various methods.
- * 
- * @author MonigaBalasubramanian
- */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,12 +19,18 @@ import com.onlinebookapp.exceptions.IdNotFoundException;
 import com.onlinebookapp.exceptions.PriceNotAvailableException;
 import com.onlinebookapp.util.Queries;
 
+/**
+ * Implementation Class BookImpl with overridden methods to use various methods.
+ * 
+ * @author MonigaBalasubramanian
+ */
 public class BookImpl implements BookInterface {
 
 	/**
-	 * addBook() method adds the number of book the user needs to the database.
+	 * void addBook() method adds the number of book the user needs to the database.
 	 * 
 	 * @author MonigaBalasubramanian
+	 * @param book
 	 */
 	@Override
 	public void addBook(Book book) {
@@ -57,9 +61,13 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * deleteBook() method deletes specific record based on the bookId given.
+	 * boolean deleteBook() method deletes specific record based on the bookId
+	 * given.
 	 * 
 	 * @author MonigaBalasubramanian
+	 * @param bookId
+	 * @throws BookNotFoundException
+	 * @return value [value is true in default]
 	 */
 	@Override
 	public boolean deleteBook(int bookId) throws BookNotFoundException {
@@ -91,9 +99,13 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * updateBook() method updates the record values based on the given criteria.
+	 * boolean updateBook() method updates the record values based on the given
+	 * criteria.
 	 * 
 	 * @author MonigaBalasubramanian
+	 * @param bookId
+	 * @param price
+	 * @return result [true or false]
 	 */
 	@Override
 	public boolean updateBook(int bookId, double price) throws BookNotFoundException {
@@ -125,10 +137,12 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * getAllBooks() method returns all the book records in the database as a List
-	 * of Books.
+	 * List<Book> getAllBooks() method returns all the book records in the database
+	 * as a List of Books.
 	 * 
 	 * @author MonigaBalasubramanian
+	 * @return bookList i.e.List<Book> bookList = new ArrayList<>() is created to
+	 *         store all book records.
 	 */
 	@Override
 	public List<Book> getAllBooks() throws BookNotFoundException {
@@ -167,9 +181,11 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * getBookById() method returns specific book by the given bookId.
+	 * Book getBookById() method returns specific book by the given bookId.
 	 * 
 	 * @author MonigaBalasubramanian
+	 * @param id
+	 * @return book i.e. A book instance.
 	 */
 	@Override
 	public Book getBookById(int id) throws IdNotFoundException {
@@ -211,9 +227,12 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * getBookByAuthor() method returns the list of books of specific author.
+	 * List<Book> getBookByAuthor() method returns the list of books of specific
+	 * author.
 	 * 
 	 * @author MonigaBalasubramanian
+	 * @param author
+	 * @return bookList i.e. An instance of List<Book> is bookList.
 	 */
 	@Override
 	public List<Book> getBookByAuthor(String author) throws AuthorNotFoundException {
@@ -257,10 +276,12 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * getBookByCategory() method returns all the books as a list from the database
-	 * by the given category.
+	 * List<Book> getBookByCategory() method returns all the books as a list from
+	 * the database by the given category.
 	 * 
 	 * @author MonigaBalasubramanian
+	 * @param category
+	 * @return bookList
 	 */
 	@Override
 	public List<Book> getBookByCategory(String category) throws CategoryNotFoundException {
@@ -303,10 +324,12 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * getBookByPrice() method returns the books as a list by the given specific
-	 * price and throws an exception if it's not found.
+	 * List<Book> getBookByPrice() method returns the books as a list by the given
+	 * specific price and throws an exception if it's not found.
 	 * 
 	 * @author MonigaBalasubramanian
+	 * @param price
+	 * @return bookList
 	 */
 	@Override
 	public List<Book> getBookByPrice(double price) throws PriceNotAvailableException {

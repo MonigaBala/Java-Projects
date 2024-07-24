@@ -1,10 +1,8 @@
+/**
+ * Package consists of the main class which organizes all the packages and execute the code.
+ */
 package com.onlinebookapp.main;
 
-/**
- * Main Class Console Based OnlineBookApp application to interact with various Usecases. 
- * 
- * @author MonigaBalasubramanian
- */
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,6 +15,12 @@ import com.onlinebookapp.exceptions.PriceNotAvailableException;
 import com.onlinebookapp.services.BookImpl;
 import com.onlinebookapp.services.BookInterface;
 
+/**
+ * Main Class Console Based OnlineBookApp application to interact with various
+ * Usecases.
+ * 
+ * @author MonigaBalasubramanian
+ */
 public class BookClient {
 
 	public static void main(String[] args) {
