@@ -1,6 +1,3 @@
-/**
- * Package consists of service classes that declaration and implementation of the code logics.
- */
 package com.onlinebookapp.services;
 
 import java.sql.Connection;
@@ -20,21 +17,35 @@ import com.onlinebookapp.exceptions.PriceNotAvailableException;
 import com.onlinebookapp.util.Queries;
 
 /**
- * Implementation Class BookImpl with overridden methods to use various methods.
+ * Implementation of the {@link BookInterface} that provides methods for
+ * managing book records in the online book application. This class implements
+ * CRUD (Create, Read, Update, Delete) operations on book records using a SQL
+ * database.
+ * <p>
+ * The class uses JDBC for database operations and manages connections through
+ * the {@link ConnectionBean} utility. It handles SQL exceptions and custom
+ * exceptions related to book operations.
+ * </p>
  * 
  * @author MonigaBalasubramanian
  */
 public class BookImpl implements BookInterface {
 
 	/**
-	 * void addBook() method adds the number of book the user needs to the database.
+	 * Adds a new book record to the database.
+	 * <p>
+	 * This method prepares and executes an SQL INSERT statement to add the details
+	 * of the provided {@link Book} object into the database. It handles the
+	 * connection and closing of resources.
+	 * </p>
 	 * 
-	 * @author MonigaBalasubramanian
-	 * @param book
+	 * @param book the {@link Book} object containing the details of the book to be
+	 *             added.
+	 * @throws SQLException if a database access error occurs or the SQL statement
+	 *                      is invalid.
 	 */
 	@Override
 	public void addBook(Book book) {
-
 		PreparedStatement preparedStatement = null;
 		Connection connection = ConnectionBean.openConnection();
 		try {
@@ -61,13 +72,18 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * boolean deleteBook() method deletes specific record based on the bookId
-	 * given.
+	 * Deletes a specific book record based on the given book ID.
+	 * <p>
+	 * This method prepares and executes an SQL DELETE statement to remove the book
+	 * record with the specified ID from the database. If the book ID does not
+	 * exist, a {@link BookNotFoundException} is thrown.
+	 * </p>
 	 * 
-	 * @author MonigaBalasubramanian
-	 * @param bookId
-	 * @throws BookNotFoundException
-	 * @return value [value is true in default]
+	 * @param bookId the ID of the book to be deleted.
+	 * @return true if the delete operation was successful; false otherwise.
+	 * @throws BookNotFoundException if no book with the specified ID is found.
+	 * @throws SQLException          if a database access error occurs or the SQL
+	 *                               statement is invalid.
 	 */
 	@Override
 	public boolean deleteBook(int bookId) throws BookNotFoundException {
@@ -78,7 +94,7 @@ public class BookImpl implements BookInterface {
 			preparedStatement = connection.prepareStatement(Queries.DELETE_QUERY);
 			preparedStatement.setInt(1, bookId);
 			value = preparedStatement.execute();
-			if (value == true) {
+			if (value) {
 				throw new BookNotFoundException("BookId Not Found. Cannot be Deleted");
 			} else {
 				System.out.println("Book Deleted");
@@ -99,17 +115,22 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * boolean updateBook() method updates the record values based on the given
-	 * criteria.
+	 * Updates the price of a specific book record based on the given book ID.
+	 * <p>
+	 * This method prepares and executes an SQL UPDATE statement to modify the price
+	 * of the book identified by the given book ID. If the book ID does not exist, a
+	 * {@link BookNotFoundException} is thrown.
+	 * </p>
 	 * 
-	 * @author MonigaBalasubramanian
-	 * @param bookId
-	 * @param price
-	 * @return result [true or false]
+	 * @param bookId the ID of the book to be updated.
+	 * @param price  the new price to be set for the book.
+	 * @return true if the update operation was successful; false otherwise.
+	 * @throws BookNotFoundException if no book with the specified ID is found.
+	 * @throws SQLException          if a database access error occurs or the SQL
+	 *                               statement is invalid.
 	 */
 	@Override
 	public boolean updateBook(int bookId, double price) throws BookNotFoundException {
-
 		PreparedStatement preparedStatement = null;
 		Connection connection = ConnectionBean.openConnection();
 		boolean result = false;
@@ -118,16 +139,17 @@ public class BookImpl implements BookInterface {
 			preparedStatement.setDouble(1, price);
 			preparedStatement.setInt(2, bookId);
 			result = preparedStatement.execute();
-			if (result == true) {
+			if (result) {
 				throw new BookNotFoundException("Book ID not found. Not updated.");
 			}
-			System.out.println(" New Values Updated");
+			System.out.println("New Values Updated");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (preparedStatement != null)
+				if (preparedStatement != null) {
 					preparedStatement.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -137,20 +159,24 @@ public class BookImpl implements BookInterface {
 	}
 
 	/**
-	 * List<Book> getAllBooks() method returns all the book records in the database
-	 * as a List of Books.
+	 * Retrieves all book records from the database.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch all book
+	 * records from the database. It returns a list of {@link Book} objects
+	 * representing the book records found. If no books are found, an empty list is
+	 * returned.
+	 * </p>
 	 * 
-	 * @author MonigaBalasubramanian
-	 * @return bookList i.e.List<Book> bookList = new ArrayList<>() is created to
-	 *         store all book records.
+	 * @return a {@link List} of {@link Book} objects representing all book records.
+	 * @throws BookNotFoundException if no books are found in the database.
+	 * @throws SQLException          if a database access error occurs or the SQL
+	 *                               statement is invalid.
 	 */
 	@Override
 	public List<Book> getAllBooks() throws BookNotFoundException {
-
-		List<Book> bookList = new ArrayList<Book>();
+		List<Book> bookList = new ArrayList<>();
 		PreparedStatement preparedStatement = null;
 		Connection connection = ConnectionBean.openConnection();
-		Book book = null;
 		try {
 			ResultSet resultset;
 			preparedStatement = connection.prepareStatement(Queries.SELECT_QUERY, ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -158,7 +184,7 @@ public class BookImpl implements BookInterface {
 			resultset = preparedStatement.executeQuery();
 			resultset.beforeFirst();
 			while (resultset.next()) {
-				book = new Book();
+				Book book = new Book();
 				book.setBookId(resultset.getInt(1));
 				book.setTitle(resultset.getString(2));
 				book.setAuthor(resultset.getString(3));
@@ -170,90 +196,108 @@ public class BookImpl implements BookInterface {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (preparedStatement != null)
+				if (preparedStatement != null) {
 					preparedStatement.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			ConnectionBean.closeConnection();
 		}
+		if (bookList.isEmpty()) {
+			throw new BookNotFoundException("No books found in the database.");
+		}
 		return bookList;
 	}
 
 	/**
-	 * Book getBookById() method returns specific book by the given bookId.
+	 * Retrieves a specific book record based on the given book ID.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch the book
+	 * record with the specified ID. If the book ID is not found, an
+	 * {@link IdNotFoundException} is thrown. The method returns a {@link Book}
+	 * object representing the found record.
+	 * </p>
 	 * 
-	 * @author MonigaBalasubramanian
-	 * @param id
-	 * @return book i.e. A book instance.
+	 * @param id the ID of the book to be retrieved.
+	 * @return the {@link Book} object representing the book with the specified ID.
+	 * @throws IdNotFoundException if no book with the specified ID is found.
+	 * @throws SQLException        if a database access error occurs or the SQL
+	 *                             statement is invalid.
 	 */
 	@Override
 	public Book getBookById(int id) throws IdNotFoundException {
-
 		Book book = null;
 		PreparedStatement preparedStatement = null;
 		Connection connection = ConnectionBean.openConnection();
 		try {
-			book = new Book();
-			ResultSet resultset;
 			preparedStatement = connection.prepareStatement(Queries.SELECT_BY_ID, ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			preparedStatement.setInt(1, id);
-			resultset = preparedStatement.executeQuery();
-			resultset.beforeFirst();
-			if (!resultset.next())
-				throw new IdNotFoundException("Given BookID is not found. Try giving other ID.");
+			ResultSet resultset = preparedStatement.executeQuery();
+			if (!resultset.next()) {
+				throw new IdNotFoundException("Given BookID is not found. Try giving another ID.");
+			}
 			resultset.beforeFirst();
 			while (resultset.next()) {
+				book = new Book();
 				book.setBookId(resultset.getInt(1));
 				book.setTitle(resultset.getString(2));
 				book.setAuthor(resultset.getString(3));
 				book.setCategory(resultset.getString(4));
 				book.setPrice(resultset.getDouble(5));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (preparedStatement != null)
+				if (preparedStatement != null) {
 					preparedStatement.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			ConnectionBean.closeConnection();
+		}
+		if (book == null) {
+			throw new IdNotFoundException("Given BookID is not found.");
 		}
 		return book;
 	}
 
 	/**
-	 * List<Book> getBookByAuthor() method returns the list of books of specific
-	 * author.
+	 * Retrieves a list of books by a specific author.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch all books
+	 * written by the specified author. If no books are found for the given author,
+	 * an {@link AuthorNotFoundException} is thrown. The method returns a list of
+	 * {@link Book} objects representing the books by the specified author.
+	 * </p>
 	 * 
-	 * @author MonigaBalasubramanian
-	 * @param author
-	 * @return bookList i.e. An instance of List<Book> is bookList.
+	 * @param author the name of the author whose books are to be retrieved.
+	 * @return a {@link List} of {@link Book} objects representing books by the
+	 *         specified author.
+	 * @throws AuthorNotFoundException if no books are found for the specified
+	 *                                 author.
+	 * @throws SQLException            if a database access error occurs or the SQL
+	 *                                 statement is invalid.
 	 */
 	@Override
 	public List<Book> getBookByAuthor(String author) throws AuthorNotFoundException {
-
 		List<Book> bookList = new ArrayList<>();
 		PreparedStatement preparedStatement = null;
 		Connection connection = ConnectionBean.openConnection();
-		Book book = null;
-		ResultSet resultset = null;
-
 		try {
-			preparedStatement = connection.prepareStatement("SELECT * FROM onlinebookapp WHERE author =?;",
+			preparedStatement = connection.prepareStatement("SELECT * FROM onlinebookapp WHERE author = ?;",
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			preparedStatement.setString(1, author);
-			resultset = preparedStatement.executeQuery();
-			resultset.beforeFirst();
-			if (!resultset.next())
+			ResultSet resultset = preparedStatement.executeQuery();
+			if (!resultset.next()) {
 				throw new AuthorNotFoundException("No books match your description.");
+			}
 			resultset.beforeFirst();
 			while (resultset.next()) {
-				book = new Book();
+				Book book = new Book();
 				book.setBookId(resultset.getInt(1));
 				book.setTitle(resultset.getString(2));
 				book.setAuthor(resultset.getString(3));
@@ -265,43 +309,53 @@ public class BookImpl implements BookInterface {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (preparedStatement != null)
+				if (preparedStatement != null) {
 					preparedStatement.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			ConnectionBean.closeConnection();
 		}
+		if (bookList.isEmpty()) {
+			throw new AuthorNotFoundException("No books found for the specified author.");
+		}
 		return bookList;
 	}
 
 	/**
-	 * List<Book> getBookByCategory() method returns all the books as a list from
-	 * the database by the given category.
+	 * Retrieves a list of books by a specific category.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch all books
+	 * in the specified category. If no books are found for the given category, a
+	 * {@link CategoryNotFoundException} is thrown. The method returns a list of
+	 * {@link Book} objects representing the books in the specified category.
+	 * </p>
 	 * 
-	 * @author MonigaBalasubramanian
-	 * @param category
-	 * @return bookList
+	 * @param category the category of the books to be retrieved.
+	 * @return a {@link List} of {@link Book} objects representing books in the
+	 *         specified category.
+	 * @throws CategoryNotFoundException if no books are found for the specified
+	 *                                   category.
+	 * @throws SQLException              if a database access error occurs or the
+	 *                                   SQL statement is invalid.
 	 */
 	@Override
 	public List<Book> getBookByCategory(String category) throws CategoryNotFoundException {
-
 		List<Book> bookList = new ArrayList<>();
 		PreparedStatement preparedStatement = null;
 		Connection connection = ConnectionBean.openConnection();
-		Book book = null;
 		try {
-			ResultSet resultset;
 			preparedStatement = connection.prepareStatement(Queries.SELECT_BY_CATEGORY,
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			preparedStatement.setString(1, category);
-			resultset = preparedStatement.executeQuery();
-			resultset.beforeFirst();
-			if (!resultset.next())
+			ResultSet resultset = preparedStatement.executeQuery();
+			if (!resultset.next()) {
 				throw new CategoryNotFoundException("No books match your description.");
+			}
 			resultset.beforeFirst();
 			while (resultset.next()) {
-				book = new Book();
+				Book book = new Book();
 				book.setBookId(resultset.getInt(1));
 				book.setTitle(resultset.getString(2));
 				book.setAuthor(resultset.getString(3));
@@ -313,43 +367,53 @@ public class BookImpl implements BookInterface {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (preparedStatement != null)
+				if (preparedStatement != null) {
 					preparedStatement.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			ConnectionBean.closeConnection();
+		}
+		if (bookList.isEmpty()) {
+			throw new CategoryNotFoundException("No books found in the specified category.");
 		}
 		return bookList;
 	}
 
 	/**
-	 * List<Book> getBookByPrice() method returns the books as a list by the given
-	 * specific price and throws an exception if it's not found.
+	 * Retrieves a list of books within a specific price range.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch all books
+	 * priced at the specified amount. If no books are found at the given price, a
+	 * {@link PriceNotAvailableException} is thrown. The method returns a list of
+	 * {@link Book} objects representing the books at the specified price.
+	 * </p>
 	 * 
-	 * @author MonigaBalasubramanian
-	 * @param price
-	 * @return bookList
+	 * @param price the price of the books to be retrieved.
+	 * @return a {@link List} of {@link Book} objects representing books priced at
+	 *         the specified amount.
+	 * @throws PriceNotAvailableException if no books are found at the specified
+	 *                                    price.
+	 * @throws SQLException               if a database access error occurs or the
+	 *                                    SQL statement is invalid.
 	 */
 	@Override
 	public List<Book> getBookByPrice(double price) throws PriceNotAvailableException {
-
 		List<Book> bookList = new ArrayList<>();
 		PreparedStatement preparedStatement = null;
 		Connection connection = ConnectionBean.openConnection();
-		Book book = null;
 		try {
-			ResultSet resultset;
 			preparedStatement = connection.prepareStatement(Queries.SELECT_BY_PRICE, ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			preparedStatement.setDouble(1, price);
-			resultset = preparedStatement.executeQuery();
-			resultset.beforeFirst();
-			if (!resultset.next())
-				throw new PriceNotAvailableException("Books are not available in this price..");
+			ResultSet resultset = preparedStatement.executeQuery();
+			if (!resultset.next()) {
+				throw new PriceNotAvailableException("Books are not available at this price.");
+			}
 			resultset.beforeFirst();
 			while (resultset.next()) {
-				book = new Book();
+				Book book = new Book();
 				book.setBookId(resultset.getInt(1));
 				book.setTitle(resultset.getString(2));
 				book.setAuthor(resultset.getString(3));
@@ -361,15 +425,17 @@ public class BookImpl implements BookInterface {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (preparedStatement != null)
+				if (preparedStatement != null) {
 					preparedStatement.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			ConnectionBean.closeConnection();
 		}
+		if (bookList.isEmpty()) {
+			throw new PriceNotAvailableException("No books found at the specified price.");
+		}
 		return bookList;
-
 	}
-
 }

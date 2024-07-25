@@ -1,6 +1,3 @@
-/**
- * Package consists of the main class which organizes all the packages and execute the code.
- */
 package com.onlinebookapp.main;
 
 import java.util.List;
@@ -16,13 +13,34 @@ import com.onlinebookapp.services.BookImpl;
 import com.onlinebookapp.services.BookInterface;
 
 /**
- * Main Class Console Based OnlineBookApp application to interact with various
- * Usecases.
+ * The main class for the console-based Online Book Application.
+ * <p>
+ * This class provides a command-line interface for users to interact with the
+ * book management system. It allows users to perform various operations such as
+ * adding, deleting, updating, and retrieving books based on different criteria.
+ * The interactions are handled through a menu-driven approach, and user input
+ * is processed to invoke the corresponding methods from the
+ * {@link BookInterface} implementation.
+ * </p>
  * 
  * @author MonigaBalasubramanian
+ * @version 1.0
+ * @since 1.0
  */
 public class BookClient {
 
+	/**
+	 * The main method that drives the console-based application.
+	 * <p>
+	 * This method presents a menu to the user with various options for book
+	 * management. Based on the user's choice, it performs operations such as
+	 * adding, deleting, updating, and retrieving books. It interacts with the
+	 * {@link BookInterface} implementation to execute these operations and handles
+	 * exceptions that may arise during the process.
+	 * </p>
+	 * 
+	 * @param args command-line arguments (not used)
+	 */
 	public static void main(String[] args) {
 
 		Scanner scanner = new Scanner(System.in);
@@ -101,7 +119,6 @@ public class BookClient {
 					System.out.println(e.getMessage());
 				}
 				break;
-
 			case 5:
 				try {
 					System.out.println("Enter the book id to get the book details: ");
@@ -112,7 +129,6 @@ public class BookClient {
 					System.out.println(e.getMessage());
 				}
 				break;
-
 			case 6:
 				List<Book> bookList1;
 				try {
@@ -124,19 +140,16 @@ public class BookClient {
 					System.out.println(e.getMessage());
 				}
 				break;
-
 			case 7:
 				try {
 					System.out.println("Enter the category: ");
 					String category = scanner.nextLine();
-					scanner.nextLine();
 					bookList1 = bookImpl.getBookByCategory(category);
 					bookList1.forEach(System.out::println);
 				} catch (CategoryNotFoundException e) {
 					System.out.println(e.getMessage());
 				}
 				break;
-
 			case 8:
 				try {
 					System.out.println("Enter the price: ");
@@ -148,7 +161,8 @@ public class BookClient {
 					System.out.println(e.getMessage());
 				}
 				break;
-
+			default:
+				System.out.println("Invalid choice. Please enter a number between 1 and 8.");
 			}
 			System.out.println("Do you want to continue (Yes/ No): ");
 			continueOrNot = scanner.nextLine();

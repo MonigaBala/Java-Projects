@@ -1,14 +1,18 @@
-/**
- * Package provides a POJO class with field members and is used in the Project OnlineBookAppJDBC in other packages and classes.
- * @author MonigaBalasubramanian 
- */
 package com.onlinebookapp.bean;
 
 /**
- * A POJO class Book with its private fields, constructor, getters, setters and
- * toString() method.
+ * Represents a book in the online book application. This class is a Plain Old
+ * Java Object (POJO) that encapsulates the details of a book including its ID,
+ * title, author, category, and price.
+ * <p>
+ * This class provides methods to get and set the values of these fields, as
+ * well as a {@code toString()} method to get a string representation of the
+ * book instance.
+ * </p>
  * 
  * @author MonigaBalasubramanian
+ * @version 1.0
+ * @since 1.0
  */
 public class Book {
 
@@ -19,7 +23,12 @@ public class Book {
 	private double price;
 
 	/**
-	 * Default Constructor to initialize the instance variables.
+	 * Default constructor that initializes a new instance of the {@code Book} class
+	 * with default values.
+	 * <p>
+	 * The default constructor is provided for frameworks and libraries that require
+	 * a no-argument constructor to instantiate objects.
+	 * </p>
 	 * 
 	 * @see Book#Book(int, String, String, String, double)
 	 */
@@ -28,13 +37,14 @@ public class Book {
 	}
 
 	/**
-	 * Constructor to initialize using field members.
+	 * Parameterized constructor that initializes a new instance of the {@code Book}
+	 * class with specified values.
 	 * 
-	 * @param bookId
-	 * @param title
-	 * @param author
-	 * @param category
-	 * @param price
+	 * @param bookId   the unique identifier of the book
+	 * @param title    the title of the book
+	 * @param author   the author of the book
+	 * @param category the category of the book
+	 * @param price    the price of the book
 	 */
 	public Book(int bookId, String title, String author, String category, double price) {
 		super();
@@ -46,100 +56,104 @@ public class Book {
 	}
 
 	/**
-	 * int getBookId() method is used to get the bookId of the book instance.
+	 * This method gets the unique identifier of the book.
 	 * 
-	 * @return bookId
+	 * @return the book ID
 	 */
 	public int getBookId() {
 		return bookId;
 	}
 
 	/**
-	 * void setBookId() method is used to set values for bookId field.
+	 * This method sets the unique identifier of the book.
 	 * 
-	 * @param bookId
+	 * @param bookId the unique identifier to set
 	 */
 	public void setBookId(int bookId) {
 		this.bookId = bookId;
 	}
 
 	/**
-	 * String getTitle() method is used to get the title of the book instance.
+	 * This method gets the title of the book.
 	 * 
-	 * @return title
+	 * @return the title of the book
 	 */
 	public String getTitle() {
 		return title;
 	}
 
 	/**
-	 * void setTitle() method is used to set the value for title field.
+	 * This method sets the title of the book.
 	 * 
-	 * @param title
+	 * @param title the title to set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	/**
-	 * String getAuthor() method is used to get the author of the book instance.
+	 * This method gets the author of the book.
 	 * 
-	 * @return author
+	 * @return the author of the book
 	 */
 	public String getAuthor() {
 		return author;
 	}
 
 	/**
-	 * void setAuthor() method is used to set the value for author field.
+	 * This method sets the author of the book.
 	 * 
-	 * @param author
+	 * @param author the author to set
 	 */
 	public void setAuthor(String author) {
 		this.author = author;
 	}
 
 	/**
-	 * String getCategory() method is used to get the category of the book instance.
+	 * This method gets the category of the book.
 	 * 
-	 * @return category
+	 * @return the category of the book
 	 */
 	public String getCategory() {
 		return category;
 	}
 
 	/**
-	 * void setCategory() method is used to set the value for category field.
+	 * This method sets the category of the book.
 	 * 
-	 * @param category
+	 * @param category the category to set
 	 */
 	public void setCategory(String category) {
 		this.category = category;
 	}
 
 	/**
-	 * double getPrice() method is used to get the price of the book instance.
+	 * This method gets the price of the book.
 	 * 
-	 * @return price
+	 * @return the price of the book
 	 */
 	public double getPrice() {
 		return price;
 	}
 
 	/**
-	 * void setPrice() method is used to set the value for price field.
+	 * This method sets the price of the book.
 	 * 
-	 * @param price
+	 * @param price the price to set
 	 */
 	public void setPrice(double price) {
 		this.price = price;
 	}
 
 	/**
-	 * String toString() method is a overridden method to return all the field
-	 * members as a String value.
+	 * This method returns a string representation of the {@code Book} object.
+	 * <p>
+	 * This method returns a string that contains the values of all the fields of
+	 * the book instance. The string representation is useful for debugging and
+	 * logging purposes.
+	 * </p>
 	 * 
-	 * @return a string representation of the book
+	 * @return a string representation of the book instance
 	 */
 	@Override
 	public String toString() {

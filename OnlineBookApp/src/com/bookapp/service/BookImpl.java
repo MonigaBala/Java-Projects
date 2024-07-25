@@ -1,6 +1,3 @@
-/**
- * Package contains service classes that implements the code logic for the OnlineBookApp.
- */
 package com.bookapp.service;
 
 import java.util.ArrayList;
@@ -15,17 +12,34 @@ import com.bookapp.exceptions.PriceNotAvailableException;
 import com.bookapp.exceptions.TitleNotFoundException;
 
 /**
- * Class BookImpl which implements the interface IBook and the methods are
- * implemented here.
+ * {@code BookImpl} is an implementation of the {@link IBook} interface. This
+ * class provides concrete implementations for managing a collection of books.
+ * It allows for adding books, retrieving them based on various criteria, and
+ * sorting them by different fields.
+ * 
+ * <p>
+ * The class maintains an internal list of {@link Book} objects and provides
+ * methods to perform operations on this list. The operations include adding
+ * books, retrieving books by ID, title, author, category, or price, and sorting
+ * books by different fields.
+ * 
+ * <p>
+ * Exception handling is integrated into the methods to provide meaningful
+ * messages when books are not found based on the search criteria.
  * 
  * @author MonigaBalasubramanian
+ * @see IBook
+ * @see Book
  */
 public class BookImpl implements IBook {
 
-	List<Book> books = new ArrayList<>();
+	// List to store books
+	private List<Book> books = new ArrayList<>();
 
 	/**
-	 * void addBook() method adds books of type Book.
+	 * Adds a new {@link Book} to the list of books.
+	 * 
+	 * @param book The {@link Book} object to be added to the list.
 	 */
 	@Override
 	public void addBook(Book book) {
@@ -33,24 +47,23 @@ public class BookImpl implements IBook {
 	}
 
 	/**
-	 * List<Book> getAllBooks() method returns the list of books available using
-	 * stream operations to sort.
+	 * Retrieves a list of all {@link Book} objects, sorted by their title.
 	 * 
-	 * @return books i.e.List<Book> books = new ArrayList<>() is initialized to
-	 *         store the list of books.
+	 * @return A list of all books, sorted by title.
 	 */
 	@Override
 	public List<Book> getAllBooks() {
-		return books.stream().sorted((o1, o2) -> o1.getTitle().compareTo(o2.getTitle())).toList();
+		return books.stream().sorted((o1, o2) -> o1.getTitle().compareTo(o2.getTitle())).collect(Collectors.toList());
 	}
 
 	/**
-	 * List<Book> getBookById() method returns the list of books by checking the
-	 * bookId and if it's not present it will throws an IdNotFoundException.
+	 * Retrieves a list of {@link Book} objects that match the specified book ID.
+	 * Throws an {@link IdNotFoundException} if no books are found with the given
+	 * ID.
 	 * 
-	 * @throws IdNotFoundException
-	 * @return books based on the given bookId.
-	 * 
+	 * @param bookId The ID of the book to search for.
+	 * @return A list of books with the specified ID.
+	 * @throws IdNotFoundException If no books are found with the given ID.
 	 */
 	@Override
 	public List<Book> getBookById(int bookId) throws IdNotFoundException {
@@ -63,15 +76,16 @@ public class BookImpl implements IBook {
 	}
 
 	/**
-	 * List<Book> getBookByTitle() method returns the list of books by checking the
-	 * title and if it's not present it will throws an TitleNotFoundException.
+	 * Retrieves a list of {@link Book} objects that match the specified title.
+	 * Throws a {@link TitleNotFoundException} if no books are found with the given
+	 * title.
 	 * 
-	 * @throws TitleNotFoundException
-	 * @return books
+	 * @param title The title of the book to search for.
+	 * @return A list of books with the specified title.
+	 * @throws TitleNotFoundException If no books are found with the given title.
 	 */
 	@Override
 	public List<Book> getBookByTitle(String title) throws TitleNotFoundException {
-
 		List<Book> booksByTitle = books.stream().filter(book -> book.getTitle().equalsIgnoreCase(title))
 				.sorted((o1, o2) -> o1.getTitle().compareToIgnoreCase(o2.getTitle())).collect(Collectors.toList());
 		if (booksByTitle.isEmpty()) {
@@ -81,11 +95,13 @@ public class BookImpl implements IBook {
 	}
 
 	/**
-	 * List<Book> getBookByAuthor() method returns the list of books by checking the
-	 * author and if it's not present it will throws an AuthorNotFoundException.
+	 * Retrieves a list of {@link Book} objects that match the specified author.
+	 * Throws an {@link AuthorNotFoundException} if no books are found with the
+	 * given author.
 	 * 
-	 * @throws AuthorNotFoundException
-	 * @return books
+	 * @param author The author of the book to search for.
+	 * @return A list of books with the specified author.
+	 * @throws AuthorNotFoundException If no books are found with the given author.
 	 */
 	@Override
 	public List<Book> getBookByAuthor(String author) throws AuthorNotFoundException {
@@ -98,12 +114,14 @@ public class BookImpl implements IBook {
 	}
 
 	/**
-	 * List<Book> getBookByCategory() method returns the list of books by checking
-	 * the category and if it's not present it will throws an
-	 * CategoryNotFoundException.
+	 * Retrieves a list of {@link Book} objects that match the specified category.
+	 * Throws a {@link CategoryNotFoundException} if no books are found with the
+	 * given category.
 	 * 
-	 * @throws CategoryNotFoundException
-	 * @return books
+	 * @param category The category of the book to search for.
+	 * @return A list of books with the specified category.
+	 * @throws CategoryNotFoundException If no books are found with the given
+	 *                                   category.
 	 */
 	@Override
 	public List<Book> getBookByCategory(String category) throws CategoryNotFoundException {
@@ -116,27 +134,34 @@ public class BookImpl implements IBook {
 	}
 
 	/**
-	 * List<Book> getBookByPrice() method returns the list of books by checking the
-	 * price and if it's not present it will throws an PriceNotAvailableException.
+	 * Retrieves a list of {@link Book} objects that match the specified price.
+	 * Throws a {@link PriceNotAvailableException} if no books are found with the
+	 * given price.
 	 * 
-	 * @throws PriceNotAvailableException
-	 * @return books
+	 * @param price The price of the book to search for.
+	 * @return A list of books with the specified price.
+	 * @throws PriceNotAvailableException If no books are found within the specified
+	 *                                    price range.
 	 */
 	@Override
 	public List<Book> getBookByPrice(double price) throws PriceNotAvailableException {
 		List<Book> booksByPrice = books.stream().filter(book -> book.getPrice() < 1000 && book.getPrice() == price)
 				.sorted((o1, o2) -> o1.getTitle().compareTo(o2.getTitle())).collect(Collectors.toList());
 		if (booksByPrice.isEmpty()) {
-			throw new PriceNotAvailableException("Books are not available to this price..");
+			throw new PriceNotAvailableException("Books are not available to this price.");
 		}
 		return booksByPrice;
 	}
 
 	/**
-	 * List<Book> sortByAnyField() method returns the list of books by checking the
-	 * console input field for getting the book.
+	 * Sorts the list of {@link Book} objects based on the specified field.
 	 * 
-	 * @return books
+	 * <p>
+	 * The sorting fields can be "Title", "ID", "Author", "Category", or "Price". If
+	 * an invalid field is provided, it prints an error message.
+	 * 
+	 * @param field The field by which to sort the books.
+	 * @return A list of books sorted by the specified field.
 	 */
 	@Override
 	public List<Book> sortByAnyField(String field) {

@@ -1,6 +1,3 @@
-/**
- * Package consists of service classes that declaration and implementation of the code logics.
- */
 package com.onlinebookapp.services;
 
 import java.util.List;
@@ -13,86 +10,157 @@ import com.onlinebookapp.exceptions.IdNotFoundException;
 import com.onlinebookapp.exceptions.PriceNotAvailableException;
 
 /**
- * Interface BookInterface with public and abstract methods.
+ * Interface for managing book operations in an online book application.
+ * <p>
+ * This interface defines the methods for performing various operations on book
+ * records such as adding, deleting, updating, and retrieving books from the
+ * database. Each method may throw specific exceptions when operations fail due
+ * to issues like book not found or invalid input.
+ * </p>
  * 
  * @author MonigaBalasubramanian
  */
-
 public interface BookInterface {
 
 	/**
-	 * void addBook() method adds book into Book.
+	 * Adds a new book record to the database.
+	 * <p>
+	 * This method takes a {@link Book} object as input and adds it to the database.
+	 * The book details are extracted from the object and inserted into the
+	 * database.
+	 * </p>
 	 * 
-	 * @param book
+	 * @param book the {@link Book} object containing the details of the book to be
+	 *             added.
+	 * @throws SQLException if a database access error occurs or the SQL statement
+	 *                      is invalid.
 	 */
 	void addBook(Book book);
 
 	/**
-	 * boolean deleteBook() method deletes a specific record based on the parameter
-	 * passed.
+	 * Deletes a book record from the database based on the given book ID.
+	 * <p>
+	 * This method prepares and executes an SQL DELETE statement to remove the book
+	 * record with the specified ID from the database. If the book ID does not
+	 * exist, a {@link BookNotFoundException} is thrown.
+	 * </p>
 	 * 
-	 * @param bookId
-	 * @return value [true or false]
-	 * @throws BookNotFoundException
+	 * @param bookId the ID of the book to be deleted.
+	 * @return true if the book was successfully deleted; false otherwise.
+	 * @throws BookNotFoundException if no book with the specified ID is found in
+	 *                               the database.
+	 * @throws SQLException          if a database access error occurs or the SQL
+	 *                               statement is invalid.
 	 */
 	boolean deleteBook(int bookId) throws BookNotFoundException;
 
 	/**
-	 * boolean updateBook() method updates the data based on the given criteria.
+	 * Updates the price of an existing book record based on the given book ID.
+	 * <p>
+	 * This method prepares and executes an SQL UPDATE statement to modify the price
+	 * of the book identified by the given book ID. If the book ID does not exist, a
+	 * {@link BookNotFoundException} is thrown.
+	 * </p>
 	 * 
-	 * @param bookid
-	 * @param price
-	 * @return value [ true or false]
-	 * @throws BookNotFoundException
+	 * @param bookId the ID of the book to be updated.
+	 * @param price  the new price to set for the book.
+	 * @return true if the book price was successfully updated; false otherwise.
+	 * @throws BookNotFoundException if no book with the specified ID is found in
+	 *                               the database.
+	 * @throws SQLException          if a database access error occurs or the SQL
+	 *                               statement is invalid.
 	 */
-	boolean updateBook(int bookid, double price) throws BookNotFoundException;
+	boolean updateBook(int bookId, double price) throws BookNotFoundException;
 
 	/**
-	 * List<Book> getAllBooks() method retrieves all the book records available.
+	 * Retrieves all book records from the database.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch all book
+	 * records from the database. It returns a list of {@link Book} objects
+	 * representing each book record found. If no books are found, an empty list is
+	 * returned.
+	 * </p>
 	 * 
-	 * @return List<Book>
-	 * @throws BookNotFoundException
+	 * @return a {@link List} of {@link Book} objects representing all book records.
+	 * @throws BookNotFoundException if no books are found in the database.
+	 * @throws SQLException          if a database access error occurs or the SQL
+	 *                               statement is invalid.
 	 */
 	List<Book> getAllBooks() throws BookNotFoundException;
 
 	/**
-	 * Book getBookById() method retrieves a specific book record based on the given
-	 * id.
+	 * Retrieves a specific book record by its ID.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch the book
+	 * record with the specified ID. If the book ID is not found, an
+	 * {@link IdNotFoundException} is thrown. The method returns a {@link Book}
+	 * object representing the found record.
+	 * </p>
 	 * 
-	 * @param id
-	 * @return book i.e. A Book instance
-	 * @throws IdNotFoundException
+	 * @param id the ID of the book to be retrieved.
+	 * @return the {@link Book} object representing the book with the specified ID.
+	 * @throws IdNotFoundException if no book with the specified ID is found in the
+	 *                             database.
+	 * @throws SQLException        if a database access error occurs or the SQL
+	 *                             statement is invalid.
 	 */
 	Book getBookById(int id) throws IdNotFoundException;
 
 	/**
-	 * List<Book> getBookByAuthor() method retrieves the records based on the given
-	 * author.
+	 * Retrieves book records based on the author's name.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch all book
+	 * records by the specified author. If no books are found by the given author,
+	 * an {@link AuthorNotFoundException} is thrown. The method returns a list of
+	 * {@link Book} objects representing the books written by the specified author.
+	 * </p>
 	 * 
-	 * @param author
-	 * @return bookList i.e. List<Book> bookList;
-	 * @throws AuthorNotFoundException
+	 * @param author the name of the author whose books are to be retrieved.
+	 * @return a {@link List} of {@link Book} objects representing books by the
+	 *         specified author.
+	 * @throws AuthorNotFoundException if no books by the specified author are
+	 *                                 found.
+	 * @throws SQLException            if a database access error occurs or the SQL
+	 *                                 statement is invalid.
 	 */
 	List<Book> getBookByAuthor(String author) throws AuthorNotFoundException;
 
 	/**
-	 * List<Book> getBookByCategory() method retrieves the records that maps the
-	 * given category.
+	 * Retrieves book records based on the book's category.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch all book
+	 * records that belong to the specified category. If no books are found in the
+	 * given category, a {@link CategoryNotFoundException} is thrown. The method
+	 * returns a list of {@link Book} objects representing the books in the
+	 * specified category.
+	 * </p>
 	 * 
-	 * @param category
-	 * @return bookList i.e. List<Book> bookList;
-	 * @throws CategoryNotFoundException
+	 * @param category the category of the books to be retrieved.
+	 * @return a {@link List} of {@link Book} objects representing books in the
+	 *         specified category.
+	 * @throws CategoryNotFoundException if no books in the specified category are
+	 *                                   found.
+	 * @throws SQLException              if a database access error occurs or the
+	 *                                   SQL statement is invalid.
 	 */
 	List<Book> getBookByCategory(String category) throws CategoryNotFoundException;
 
 	/**
-	 * List<Book> getBookByPrice() method retrieves the records that matches the
-	 * given price.
+	 * Retrieves book records based on the book's price.
+	 * <p>
+	 * This method prepares and executes an SQL SELECT statement to fetch all book
+	 * records that match the specified price. If no books are found at the given
+	 * price, a {@link PriceNotAvailableException} is thrown. The method returns a
+	 * list of {@link Book} objects representing the books at the specified price.
+	 * </p>
 	 * 
-	 * @param price
-	 * @return bookList i.e. List<Book> bookList;
-	 * @throws PriceNotAvailableException
+	 * @param price the price of the books to be retrieved.
+	 * @return a {@link List} of {@link Book} objects representing books at the
+	 *         specified price.
+	 * @throws PriceNotAvailableException if no books are available at the specified
+	 *                                    price.
+	 * @throws SQLException               if a database access error occurs or the
+	 *                                    SQL statement is invalid.
 	 */
 	List<Book> getBookByPrice(double price) throws PriceNotAvailableException;
-
 }

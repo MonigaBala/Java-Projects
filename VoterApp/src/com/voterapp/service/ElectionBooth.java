@@ -1,6 +1,3 @@
-/**
- * Package contains Service class that implements the code logic of VoterApp.
- */
 package com.voterapp.service;
 
 import com.voterapp.exceptions.LocalityNotFoundException;
@@ -9,8 +6,16 @@ import com.voterapp.exceptions.NotEligibleException;
 import com.voterapp.exceptions.UnderAgeException;
 
 /**
- * Service Class ElectionBooth that has the code logics to check the eligibility
- * for checking the age, locality, Id and Eligibility to Vote.
+ * The ElectionBooth class provides the core functionality for checking the
+ * eligibility of a voter based on their age, locality, and voter ID. It
+ * contains methods to validate each of these criteria and a method to check
+ * overall eligibility.
+ * 
+ * The eligibility checks include: - Age verification (must be 18 or older) -
+ * Locality verification (must be within a predefined set of localities) - Voter
+ * ID verification (must be a three-digit number)
+ * 
+ * If any of these conditions are not met, a custom exception is thrown.
  * 
  * @author MonigaBalasubramanian
  */
@@ -20,94 +25,79 @@ public class ElectionBooth {
 	String[] localities = { "Chennai", "Madurai", "Tirunelveli", "Coimbatore", "Salem" };
 
 	/**
-	 * boolean checkAge() method checks for the given age and throws an exception if
-	 * the given condition is not satisfied.
+	 * Checks if the age is 18 or older.
 	 * 
-	 * @param age
-	 * @return flag [true or false]
-	 * @throws UnderAgeException
+	 * @param age the age of the voter
+	 * @return true if the age is 18 or older
+	 * @throws UnderAgeException if the age is less than 18
 	 */
 	public boolean checkAge(int age) throws UnderAgeException {
-		boolean flag = false;
 		if (age < 18) {
 			throw new UnderAgeException("UnderAgeException: Age should be greater than 18!");
-		} else {
-			flag = true;
 		}
-		return flag;
+		return true;
 	}
 
 	/**
-	 * boolean checkLocality() method checks for the presence of locality and if not
-	 * present, throws an exception.
+	 * Checks if the provided locality is within the allowed localities.
 	 * 
-	 * @param locality
-	 * @return flag
-	 * @throws LocalityNotFoundException
+	 * @param locality the locality of the voter
+	 * @return true if the locality is valid
+	 * @throws LocalityNotFoundException if the locality is not found in the allowed
+	 *                                   list
 	 */
 	public boolean checkLocality(String locality) throws LocalityNotFoundException {
-		boolean flag = false;
 		for (String loc : localities) {
 			if (loc.equalsIgnoreCase(locality)) {
-				flag = true;
-				break;
+				return true;
 			}
 		}
-		if (flag == false) {
-			throw new LocalityNotFoundException("LocalityNotFoundException: There is no election in your locality");
-		}
-
-		return flag;
+		throw new LocalityNotFoundException("LocalityNotFoundException: There is no election in your locality");
 	}
 
 	/**
-	 * boolean checkVoterID() method checks for the given voterID and if the voterID
-	 * doesn't satisfies the condition, it throws an exception.
+	 * Checks if the voter ID is a valid three-digit number.
 	 * 
-	 * @param vid
-	 * @return flag
-	 * @throws NoVoterIDException
+	 * @param voterId the voter ID
+	 * @return true if the voter ID is valid
+	 * @throws NoVoterIDException if the voter ID is not a valid three-digit number
 	 */
-	public boolean checkVoterID(int vid) throws NoVoterIDException {
-		boolean flag = false;
-		if (vid >= 100 && vid <= 999) {
-			flag = true;
+	public boolean checkVoterID(int voterId) throws NoVoterIDException {
+		if (voterId >= 100 && voterId <= 999) {
+			return true;
 		} else {
-			flag = false;
-			throw new NoVoterIDException("NoVoterIDException: Age is not valid! Give correct age");
+			throw new NoVoterIDException(
+					"NoVoterIDException: Voter ID is not valid! It should be a three-digit number.");
 		}
-		return flag;
-
 	}
 
 	/**
-	 * boolean checkEligibility() method returns a boolean value true if all the
-	 * conditions are satisfied and throws exception if either one of it is not
-	 * satisfied.
+	 * Checks the overall eligibility of a voter based on age, locality, and voter
+	 * ID.
 	 * 
-	 * @param age
-	 * @param locality
-	 * @param vid
-	 * @return flag
-	 * @throws NotEligibleException
+	 * @param age      the age of the voter
+	 * @param locality the locality of the voter
+	 * @param voterId  the voter ID
+	 * @return true if all conditions are satisfied
+	 * @throws NotEligibleException if any condition is not satisfied
 	 */
-	public boolean checkEligibility(int age, String locality, int vid) throws NotEligibleException {
-		boolean flag = false;
+	public boolean checkEligibility(int age, String locality, int voterId) throws NotEligibleException {
+		boolean result = false;
 
 		boolean checkage = checkAge(age);
-		boolean checkloc = checkLocality(locality);
-		boolean checkvid = checkVoterID(vid);
+		boolean checklocality = checkLocality(locality);
+		boolean checkvoterid = checkVoterID(voterId);
 		if (checkage == true) {
-			if (checkloc == true) {
-				if (checkvid == true) {
-					flag = true;
+			if (checklocality == true) {
+				if (checkvoterid == true) {
+					result = true;
 					System.out.println("Eligibility process is successful.. You're eligible to vote");
 				}
 			}
 		} else {
-			flag = false;
+			result = false;
 			throw new NotEligibleException("Not Eligible to vote!");
 		}
-		return flag;
+		return result;
 	}
 }

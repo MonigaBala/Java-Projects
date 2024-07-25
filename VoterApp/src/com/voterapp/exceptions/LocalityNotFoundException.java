@@ -1,11 +1,19 @@
-/**
- * Package encloses different custom exceptions that may occur in the service package.
- */
 package com.voterapp.exceptions;
 
 /**
- * Custom Exception named LocalityNotFoundException.
+ * LocalityNotFoundException is thrown when a user's locality cannot be found in
+ * the system. This exception extends NotEligibleException to indicate that the
+ * user is not eligible to proceed due to their locality not being recognized.
  * 
+ * This custom exception provides two constructors: - A default constructor that
+ * initializes the exception without a message. - A constructor that accepts a
+ * custom message to provide more context about the exception.
+ * 
+ * This exception is specifically used in the voter application to handle cases
+ * where a user's locality is not found, ensuring that the application can
+ * appropriately respond to such situations.
+ * 
+ * @see NotEligibleException
  * @author MonigaBalasubramanian
  */
 public class LocalityNotFoundException extends NotEligibleException {
@@ -25,7 +33,7 @@ public class LocalityNotFoundException extends NotEligibleException {
 	/**
 	 * Constructor with a parameter of type String is passed to initialize.
 	 * 
-	 * @param message
+	 * @param message the detail message explaining the reason for the exception.
 	 */
 	public LocalityNotFoundException(String message) {
 		super(message);

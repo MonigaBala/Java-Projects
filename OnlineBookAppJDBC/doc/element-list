@@ -1,6 +1,7 @@
-com.onlinebookapp.bean
-com.onlinebookapp.dao
-com.onlinebookapp.exceptions
-com.onlinebookapp.main
-com.onlinebookapp.services
-com.onlinebookapp.util
+com.bookapp.bean
+com.bookapp.client
+com.bookapp.exceptions
+com.bookapp.service
+com.voterapp.exceptions
+com.voterapp.main
+com.voterapp.service
