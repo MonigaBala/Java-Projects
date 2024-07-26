@@ -8,18 +8,19 @@ import com.smsapp.model.Teacher;
 public interface IStudentService {
 
 	void admitStudent(Student student);
-	
-	List<Student> retrieveStudentsByGrade(int grade);
-	
-	Student retrieveStudentById(int studentId);
-	
-	List<Teacher> retrieveTeachersAssigned(int studentId);
-	
+
+	List<Student> getAllStudents();
+
+	List<Student> getStudentsByGrade(int grade);
+
+	Student getStudentById(int studentId);
+
+	List<Teacher> getTeachersAssigned(int studentId);
+
 	void assignRandomHouses();
-	
-	void updateStudent(int studentId);
-	
+
+	void updateStudent(int grade, int studentId);
+
 	void deleteStudent(int studentId);
-	
 
 }
