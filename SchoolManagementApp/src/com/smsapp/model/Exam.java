@@ -1,141 +1,169 @@
 package com.smsapp.model;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
+/**
+ * Represents an exam in the School Management System.
+ * <p>
+ * This class includes details about the exam such as the exam ID, name, date,
+ * subject, and the list of students and teachers associated with the exam.
+ * </p>
+ * 
+ * @author MonigaBalasubramanian
+ */
 public class Exam {
-
-	private int studentId;
-	private String evaluatedBy;
 	private int examId;
-	private String subject;
+	private String examName;
 	private Date examDate;
-	private String examType;
-	private int duration;
-	private String instructor;
-	private List<Subject> subjects;
-	private String locationOfExam;
-	public static final int MAX_MARKS = 100;
-	private int marks;
+	private Subject subject;
+	private List<Student> students;
+	private List<Teacher> teachers;
 
+	/**
+	 * Default constructor.
+	 */
 	public Exam() {
 		super();
 	}
 
-	public Exam(int studentId, String evaluatedBy, int examId, String subject, Date examDate, String examType,
-			int duration, String instructor, List<Subject> subjects, String locationOfExam, int marks) {
+	/**
+	 * Parameterized constructor to initialize an Exam with all fields.
+	 * 
+	 * @param examId   the ID of the exam
+	 * @param examName the name of the exam
+	 * @param examDate the date of the exam
+	 * @param subject  the subject of the exam
+	 * @param students the list of students associated with the exam
+	 * @param teachers the list of teachers associated with the exam
+	 */
+	public Exam(int examId, String examName, Date examDate, Subject subject, List<Student> students,
+			List<Teacher> teachers) {
 		super();
-		this.studentId = studentId;
-		this.evaluatedBy = evaluatedBy;
 		this.examId = examId;
-		this.subject = subject;
+		this.examName = examName;
 		this.examDate = examDate;
-		this.examType = examType;
-		this.duration = duration;
-		this.instructor = instructor;
-		this.subjects = subjects;
-		this.locationOfExam = locationOfExam;
-		this.marks = marks;
+		this.subject = subject;
+		this.students = students;
+		this.teachers = teachers;
 	}
 
-	public int getStudentId() {
-		return studentId;
-	}
-
-	public void setStudentId(int studentId) {
-		this.studentId = studentId;
-	}
-
-	public String getEvaluatedBy() {
-		return evaluatedBy;
-	}
-
-	public void setEvaluatedBy(String evaluatedBy) {
-		this.evaluatedBy = evaluatedBy;
-	}
-
+	/**
+	 * Gets the ID of the exam.
+	 * 
+	 * @return the exam ID
+	 */
 	public int getExamId() {
 		return examId;
 	}
 
+	/**
+	 * Sets the ID of the exam.
+	 * 
+	 * @param examId the exam ID to set
+	 */
 	public void setExamId(int examId) {
 		this.examId = examId;
 	}
 
-	public String getSubject() {
-		return subject;
+	/**
+	 * Gets the name of the exam.
+	 * 
+	 * @return the exam name
+	 */
+	public String getExamName() {
+		return examName;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	/**
+	 * Sets the name of the exam.
+	 * 
+	 * @param examName the exam name to set
+	 */
+	public void setExamName(String examName) {
+		this.examName = examName;
 	}
 
+	/**
+	 * Gets the date of the exam.
+	 * 
+	 * @return the exam date
+	 */
 	public Date getExamDate() {
 		return examDate;
 	}
 
+	/**
+	 * Sets the date of the exam.
+	 * 
+	 * @param examDate the exam date to set
+	 */
 	public void setExamDate(Date examDate) {
 		this.examDate = examDate;
 	}
 
-	public String getExamType() {
-		return examType;
+	/**
+	 * Gets the subject of the exam.
+	 * 
+	 * @return the subject
+	 */
+	public Subject getSubject() {
+		return subject;
 	}
 
-	public void setExamType(String examType) {
-		this.examType = examType;
+	/**
+	 * Sets the subject of the exam.
+	 * 
+	 * @param subject the subject to set
+	 */
+	public void setSubject(Subject subject) {
+		this.subject = subject;
 	}
 
-	public int getDuration() {
-		return duration;
+	/**
+	 * Gets the list of students associated with the exam.
+	 * 
+	 * @return the list of students
+	 */
+	public List<Student> getStudents() {
+		return students;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	/**
+	 * Sets the list of students associated with the exam.
+	 * 
+	 * @param students the list of students to set
+	 */
+	public void setStudents(List<Student> students) {
+		this.students = students;
 	}
 
-	public String getInstructor() {
-		return instructor;
+	/**
+	 * Gets the list of teachers associated with the exam.
+	 * 
+	 * @return the list of teachers
+	 */
+	public List<Teacher> getTeachers() {
+		return teachers;
 	}
 
-	public void setInstructor(String instructor) {
-		this.instructor = instructor;
+	/**
+	 * Sets the list of teachers associated with the exam.
+	 * 
+	 * @param teachers the list of teachers to set
+	 */
+	public void setTeachers(List<Teacher> teachers) {
+		this.teachers = teachers;
 	}
 
-	public List<Subject> getSubjects() {
-		return subjects;
-	}
-
-	public void setSubjects(List<Subject> subjects) {
-		this.subjects = subjects;
-	}
-
-	public String getLocationOfExam() {
-		return locationOfExam;
-	}
-
-	public void setLocationOfExam(String locationOfExam) {
-		this.locationOfExam = locationOfExam;
-	}
-
-	public int getMarks() {
-		return marks;
-	}
-
-	public void setMarks(int marks) {
-		this.marks = marks;
-	}
-
-	public static int getMaxMarks() {
-		return MAX_MARKS;
-	}
-
+	/**
+	 * Returns a string representation of the exam.
+	 * 
+	 * @return a string representation of the exam
+	 */
 	@Override
 	public String toString() {
-		return "Exam [studentId=" + studentId + ", evaluatedBy=" + evaluatedBy + ", examId=" + examId + ", subject="
-				+ subject + ", examDate=" + examDate + ", examType=" + examType + ", duration=" + duration
-				+ ", instructor=" + instructor + ", subjects=" + subjects + ", locationOfExam=" + locationOfExam
-				+ ", marks=" + marks + "]";
+		return "Exam [examId=" + examId + ", examName=" + examName + ", examDate=" + examDate + ", subject=" + subject
+				+ ", students=" + students + ", teachers=" + teachers + "]";
 	}
-
 }

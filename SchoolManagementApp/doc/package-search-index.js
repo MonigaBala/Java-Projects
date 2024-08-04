@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.smsapp.dao"},{"l":"com.smsapp.exceptions"},{"l":"com.smsapp.main"},{"l":"com.smsapp.model"},{"l":"com.smsapp.services.implementations"},{"l":"com.smsapp.services.interfaces"},{"l":"com.smsapp.util"}];updateSearchResults();
